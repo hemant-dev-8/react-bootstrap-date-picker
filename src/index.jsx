@@ -63,11 +63,11 @@ const CalendarHeader = createReactClass({
 
   render() {
     return <div className="text-center">
-      <div className="text-muted pull-left datepicker-previous-wrapper" onClick={this.handleClickPrevious} style={{cursor: 'pointer'}}>
+      <div className="text-muted pull-left datepicker-previous-wrapper" onClick={this.handleClickPrevious} style={{ cursor: 'pointer' }}>
         {this.displayingMinMonth() ? null : this.props.previousButtonElement}
       </div>
       <span>{this.props.monthLabels[this.props.displayDate.getMonth()]} {this.props.displayDate.getFullYear()}</span>
-      <div className="text-muted pull-right datepicker-next-wrapper" onClick={this.handleClickNext} style={{cursor: 'pointer'}}>
+      <div className="text-muted pull-right datepicker-next-wrapper" onClick={this.handleClickNext} style={{ cursor: 'pointer' }}>
         {this.displayingMaxMonth() ? null : this.props.nextButtonElement}
       </div>
     </div>;
@@ -114,9 +114,9 @@ const Calendar = createReactClass({
     return date;
   },
 
-  getWeekNumber(date){
-    const target  = new Date(date.valueOf());
-    const dayNr   = (date.getDay() + 6) % 7;
+  getWeekNumber(date) {
+    const target = new Date(date.valueOf());
+    const dayNr = (date.getDay() + 6) % 7;
     target.setDate(target.getDate() - dayNr + 3);
     const firstThursday = target.valueOf();
     target.setMonth(0, 1);
@@ -187,12 +187,12 @@ const Calendar = createReactClass({
       }
 
 
-      if (showWeeks){
-        const weekNum = this.getWeekNumber(new Date(year, month,  day - 1, 12, 0, 0, 0));
+      if (showWeeks) {
+        const weekNum = this.getWeekNumber(new Date(year, month, day - 1, 12, 0, 0, 0));
         week.unshift(<td
-            key={7}
-            style={{padding: this.props.cellPadding, fontSize: '0.8em', color: 'darkgrey'}}
-            className="text-muted"
+          key={7}
+          style={{ padding: this.props.cellPadding, fontSize: '0.8em', color: 'darkgrey' }}
+          className="text-muted"
         >
           {weekNum}
         </td>);
@@ -206,20 +206,20 @@ const Calendar = createReactClass({
     }
 
     const weekColumn = showWeeks ?
-        <td
+      <td
         className="text-muted current-week"
-        style={{padding: this.props.cellPadding}} /> :
-        null;
+        style={{ padding: this.props.cellPadding }} /> :
+      null;
 
     return <table className="text-center">
       <thead>
         <tr>
           {weekColumn}
-          {this.props.dayLabels.map((label, index)=>{
+          {this.props.dayLabels.map((label, index) => {
             return <td
               key={index}
               className="text-muted"
-              style={{padding: this.props.cellPadding}}>
+              style={{ padding: this.props.cellPadding }}>
               <small>{label}</small>
             </td>;
           })}
@@ -351,7 +351,7 @@ export default createReactClass({
         .slice(this.props.weekStartsOn)
         .concat(this.props.dayLabels.slice(0, this.props.weekStartsOn));
     } else if (this.props.weekStartsOn === 1) {
-      state.dayLabels = this.props.dayLabels.slice(1).concat(this.props.dayLabels.slice(0,1));
+      state.dayLabels = this.props.dayLabels.slice(1).concat(this.props.dayLabels.slice(0, 1));
     } else {
       state.dayLabels = this.props.dayLabels;
     }
@@ -364,18 +364,18 @@ export default createReactClass({
 
   makeDateValues(isoString) {
     let displayDate;
-    const selectedDate = isoString ? new Date(`${isoString.slice(0,10)}T12:00:00.000Z`) : null;
-    const minDate = this.props.minDate ? new Date(`${this.props.minDate.slice(0,10)}T12:00:00.000Z`) : null;
-    const maxDate = this.props.maxDate ? new Date(`${this.props.maxDate.slice(0,10)}T12:00:00.000Z`) : null;
+    const selectedDate = isoString ? new Date(`${isoString.slice(0, 10)}T12:00:00.000Z`) : null;
+    const minDate = this.props.minDate ? new Date(`${this.props.minDate.slice(0, 10)}T12:00:00.000Z`) : null;
+    const maxDate = this.props.maxDate ? new Date(`${this.props.maxDate.slice(0, 10)}T12:00:00.000Z`) : null;
 
     const inputValue = isoString ? this.makeInputValueString(selectedDate) : null;
     if (selectedDate) {
       displayDate = new Date(selectedDate);
     } else {
-      const today = new Date(`${(new Date().toISOString().slice(0,10))}T12:00:00.000Z`);
-      if (minDate && Date.parse(minDate) >= Date.parse(today)){
+      const today = new Date(`${(new Date().toISOString().slice(0, 10))}T12:00:00.000Z`);
+      if (minDate && Date.parse(minDate) >= Date.parse(today)) {
         displayDate = minDate;
-      } else if (maxDate && Date.parse(maxDate) <= Date.parse(today)){
+      } else if (maxDate && Date.parse(maxDate) <= Date.parse(today)) {
         displayDate = maxDate;
       } else {
         displayDate = today;
@@ -460,7 +460,15 @@ export default createReactClass({
     });
   },
 
-  shouldComponentUpdate: function(nextProps, nextState) {
+  toggleCalender() {
+    if (this.state.focused === true) {
+      this.handleBlur()
+    } else {
+      this.handleFocus()
+    }
+  },
+
+  shouldComponentUpdate: function (nextProps, nextState) {
     return !(this.state.inputFocused === true && nextState.inputFocused === false);
   },
 
@@ -512,7 +520,7 @@ export default createReactClass({
         parts[1] = parts[1].slice(0, 2);
       }
       if (parts[2]) {
-        parts[2] = parts[2].slice(0,4);
+        parts[2] = parts[2].slice(0, 4);
       }
     } else {
       if (parts[0] && parts[0].length > 4) {
@@ -524,7 +532,7 @@ export default createReactClass({
         parts[1] = parts[1].slice(0, 2);
       }
       if (parts[2]) {
-        parts[2] = parts[2].slice(0,2);
+        parts[2] = parts[2].slice(0, 2);
       }
     }
     this.setState({
@@ -535,7 +543,7 @@ export default createReactClass({
   handleInputChange() {
 
     const originalValue = ReactDOM.findDOMNode(this.refs.input).value;
-    const inputValue = originalValue.replace(/(-|\/\/)/g, this.state.separator).slice(0,10);
+    const inputValue = originalValue.replace(/(-|\/\/)/g, this.state.separator).slice(0, 10);
 
     if (!inputValue) {
       this.clear();
@@ -548,25 +556,25 @@ export default createReactClass({
         return this.handleBadInput(originalValue);
       }
 
-      month = inputValue.slice(0,2).replace(/[^0-9]/g, '');
-      day = inputValue.slice(3,5).replace(/[^0-9]/g, '');
-      year = inputValue.slice(6,10).replace(/[^0-9]/g, '');
+      month = inputValue.slice(0, 2).replace(/[^0-9]/g, '');
+      day = inputValue.slice(3, 5).replace(/[^0-9]/g, '');
+      year = inputValue.slice(6, 10).replace(/[^0-9]/g, '');
     } else if (this.props.dateFormat.match(/DD.MM.YYYY/)) {
       if (!inputValue.match(/[0-3][0-9].[0-1][0-9].[1-2][0-9][0-9][0-9]/)) {
         return this.handleBadInput(originalValue);
       }
 
-      day = inputValue.slice(0,2).replace(/[^0-9]/g, '');
-      month = inputValue.slice(3,5).replace(/[^0-9]/g, '');
-      year = inputValue.slice(6,10).replace(/[^0-9]/g, '');
+      day = inputValue.slice(0, 2).replace(/[^0-9]/g, '');
+      month = inputValue.slice(3, 5).replace(/[^0-9]/g, '');
+      year = inputValue.slice(6, 10).replace(/[^0-9]/g, '');
     } else {
       if (!inputValue.match(/[1-2][0-9][0-9][0-9].[0-1][0-9].[0-3][0-9]/)) {
         return this.handleBadInput(originalValue);
       }
 
-      year = inputValue.slice(0,4).replace(/[^0-9]/g, '');
-      month = inputValue.slice(5,7).replace(/[^0-9]/g, '');
-      day = inputValue.slice(8,10).replace(/[^0-9]/g, '');
+      year = inputValue.slice(0, 4).replace(/[^0-9]/g, '');
+      month = inputValue.slice(5, 7).replace(/[^0-9]/g, '');
+      day = inputValue.slice(8, 10).replace(/[^0-9]/g, '');
     }
 
     const monthInteger = parseInt(month, 10);
@@ -658,23 +666,23 @@ export default createReactClass({
         noValidate: this.props.noValidate,
       })
       : <FormControl
-          onKeyDown={this.handleKeyDown}
-          value={this.state.inputValue || ''}
-          required={this.props.required}
-          ref="input"
-          type="text"
-          className={this.props.className}
-          style={this.props.style}
-          autoFocus={this.props.autoFocus}
-          disabled={this.props.disabled}
-          placeholder={this.state.focused ? this.props.dateFormat : this.state.placeholder}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          onChange={this.handleInputChange}
-          autoComplete={this.props.autoComplete}
-          onInvalid={this.props.onInvalid}
-          noValidate={this.props.noValidate}
-          />;
+        onKeyDown={this.handleKeyDown}
+        value={this.state.inputValue || ''}
+        required={this.props.required}
+        ref="input"
+        type="text"
+        className={this.props.className}
+        style={this.props.style}
+        autoFocus={this.props.autoFocus}
+        disabled={this.props.disabled}
+        placeholder={this.state.focused ? this.props.dateFormat : this.state.placeholder}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
+        onChange={this.handleInputChange}
+        autoComplete={this.props.autoComplete}
+        onInvalid={this.props.onInvalid}
+        noValidate={this.props.noValidate}
+      />;
 
     return <InputGroup
       ref="inputGroup"
@@ -704,15 +712,15 @@ export default createReactClass({
             maxDate={this.props.maxDate}
             roundedCorners={this.props.roundedCorners}
             showWeeks={this.props.showWeeks}
-           />
+          />
         </Popover>
       </Overlay>
-      <div ref="overlayContainer" style={{position: 'relative'}} />
+      <div ref="overlayContainer" style={{ position: 'relative' }} />
       <input ref="hiddenInput" type="hidden" id={this.props.id} name={this.props.name} value={this.state.value || ''} data-formattedvalue={this.state.value ? this.state.inputValue : ''} />
       {this.props.showClearButton && !this.props.customControl && <InputGroup.Addon
-        onClick={this.props.disabled ? null : this.clear}
-        style={{cursor:(this.state.inputValue && !this.props.disabled) ? 'pointer' : 'not-allowed'}}>
-        <div style={{opacity: (this.state.inputValue && !this.props.disabled) ? 1 : 0.5}}>
+        onClick={this.props.disabled ? null : this.toggleCalender} //this.clear
+        style={{ cursor: (this.state.inputValue && !this.props.disabled) ? 'pointer' : 'pointer' }}>
+        <div style={{ opacity: (this.state.inputValue && !this.props.disabled) ? 1 : 0.5 }}>
           {this.props.clearButtonElement}
         </div>
       </InputGroup.Addon>}
